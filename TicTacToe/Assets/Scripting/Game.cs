@@ -44,6 +44,10 @@ public class Game {
 			//Updates turn
 			turn = !turn;
 		}
+
+		if (turn == true) {
+			AI.Play();
+		}
 	}
 
 	private static void CheckState () {
@@ -51,7 +55,7 @@ public class Game {
 		bool full = CheckFull();
 		
 		//Checks if a player has won
-		int winner = CheckWinner();
+		int winner = CheckWinner(board);
 		if (winner != 0) {
 			Win(winner);
 		}
@@ -75,14 +79,14 @@ public class Game {
 	}
 
 	//Checks if a player has won, returns player's number
-	private static int CheckWinner () {
+	public static int CheckWinner (int[,] b) {
 		int sum = 0;
 
 		//Checks columns
 		for (int i = 0; i < 3; i++) {
 			sum = 0;
 			for (int j = 0; j < 3; j++) {
-				sum += board[i, j];
+				sum += b[i, j];
 			}
 
 			if (sum == 3)  { return 1; }
@@ -93,7 +97,7 @@ public class Game {
 		for (int j = 0; j < 3; j++) {
 			sum = 0;
 			for (int i = 0; i < 3; i++) {
-				sum += board[i, j];
+				sum += b[i, j];
 			}
 
 			if (sum == 3)  { return 1; }
@@ -103,7 +107,7 @@ public class Game {
 		//Checks diagonals
 		sum = 0;
 		for (int i = 0; i < 3; i++) {
-			sum += board[i, i];
+			sum += b[i, i];
 
 			if (sum == 3)  { return 1; }
 			if (sum == -3) { return 2; }
@@ -111,7 +115,7 @@ public class Game {
 
 		sum = 0;
 		for (int i = 0; i < 3; i++) {
-			sum += board[i, 2-i];	
+			sum += b[i, 2-i];	
 
 			if (sum == 3)  { return 1; }
 			if (sum == -3) { return 2; }
