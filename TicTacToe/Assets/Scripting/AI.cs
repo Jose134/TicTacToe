@@ -6,19 +6,26 @@ using UnityEngine;
 //https://medium.freecodecamp.org/how-to-make-your-tic-tac-toe-game-unbeatable-by-using-the-minimax-algorithm-9d690bad4b37
 
 public struct Move {
-	public Vector2 position;
+	public int x, y;
 	public int score;
+
+	public Move (int x, int y, int score) {
+		this.x = x;
+		this.y = y;
+		this.score = score;
+	}
 };
 
 public static class AI {
 
 	public static void Play () {
-		Move owo = minimax(Game.board, 2);
-		Transform tile = GameObject.Find("Board").transform.Find("Tiles").Find((int)owo.position.x + "," + (int)owo.position.y);
-		Game.TileClick((int)owo.position.x, (int)owo.position.y, tile);
+		//Move owo = minimax(Game.board, 2);
+		Move owo = GetBestMove(Game.board, true);
+		Transform tile = GameObject.Find("Board").transform.Find("Tiles").Find(owo.x + "," + owo.y);
+		Game.TileClick(owo.x, owo.y, tile);
 	}
 
-	private static Move minimax (int[,] board, int player) {
+	/* private static Move minimax (int[,] board, int player) {
 
 		int winner = Game.CheckWinner(board);
 		if (winner == 1) {
@@ -77,6 +84,49 @@ public static class AI {
 					bestMove = moves[i];
 				}
 			}
+		}
+
+		return bestMove;
+	}*/
+
+	private static Move GetBestMove (int[,] board, bool turn) {
+		Move bestMove = new Move(1, 1, 0);
+
+		int winner = Game.CheckWinner(board);
+		if (winner == 2) {
+			return new Move(1, 1, -10);
+		}
+		else if (winner == 1) {
+			return new Move(1, 1, 10);
+		}
+
+		List<Vector2> freeTiles = GetFreeTiles(board);
+
+		List<Move> moves = new List<Move>();
+		foreach (Vector2 tile in freeTiles) {
+			board[(int)tile.x, (int)tile.y] = turn ? 2 : 1;
+			
+			Move next = GetBestMove(board, !turn);
+			moves.Add(next);
+			
+			board[(int)tile.x, (int)tile.y] = 0;
+		}
+
+		if (turn) {
+			foreach (Move m in moves) {
+				if (m.score < bestMove.score) {
+					bestMove = m;
+				}
+			}
+		}
+		else {
+			if (turn) {
+			foreach (Move m in moves) {
+				if (m.score > bestMove.score) {
+					bestMove = m;
+				}
+			}
+		}
 		}
 
 		return bestMove;
