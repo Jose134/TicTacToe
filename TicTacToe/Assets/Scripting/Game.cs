@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Game {
 
@@ -121,11 +122,14 @@ public class Game {
 
 	//Function called when a player wins
 	private static void Win (int player) {
+		Text winnerText = GameObject.Find("Canvas").transform.Find("WinnerText").GetComponent<Text>();
 		if (player == 0) {
 			Debug.Log("It's a draw");
+			winnerText.text = "Draw!";
 		}
 		else {
 			Debug.Log("Player " + player + " has won");
+			winnerText.text = "Player " + player + " has won!";
 		}
 
 		finished = true;
