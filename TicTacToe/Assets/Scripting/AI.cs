@@ -26,7 +26,7 @@ public static class AI {
 	}
 
 	private static Move GetBestMove (int[,] board, bool turn) {
-		Move bestMove = new Move(1, 1, turn ? 10000 : -10000);
+		Move bestMove = new Move(-1, -1, turn ? 10000 : -10000);
 
 		int winner = Game.CheckWinner(board);
 		if (winner == 2) {
