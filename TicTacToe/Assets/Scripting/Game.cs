@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Game {
 
+	public static GameObject xPrefab; //Player 1
+	public static GameObject oPrefab; //Player 2
+
 	//Sets the board (0 = empty; 1 = player 1; -1 = player 2)
 	public static int[,] board = {
 		{ 0, 0, 0 },
@@ -13,7 +16,7 @@ public class Game {
 
 	public static bool turn = false; //false = Player1; true = Player 2
 
-	public static void TileClick (int x, int y) {
+	public static void TileClick (int x, int y, Transform t) {
 		//Checks if the tile is empty
 		if (board[x, y] == 0) {
 			if (turn) {
@@ -24,6 +27,11 @@ public class Game {
 				//Sets board value for player 1
 				board[x, y] = 1;
 			}
+
+			//Instantiates an X or O GameObject
+			GameObject go = GameObject.Instantiate(turn ? oPrefab : xPrefab);
+			go.transform.position = t.position;
+			go.transform.parent = t;
 
 			//Checks if a player has won
 			int winner = CheckBoard();

@@ -13,6 +13,6 @@ public class Tile : MonoBehaviour {
 	}
 
 	private void OnMouseUp () {
-		Game.TileClick(x, y);
+		Game.TileClick(x, y, transform);
 	}
 }
