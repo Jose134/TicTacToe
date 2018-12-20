@@ -8,12 +8,6 @@ public class MenuColor : MonoBehaviour {
 	private List<SpriteRenderer> sprites = new List<SpriteRenderer>();
 	private List<Image> uiImages = new List<Image>();
 
-	/*private Vector3 a = Vector3.one;
-	private Vector3 b = Vector3.zero;
-	private Vector3 start = Vector3.zero;
-	private Vector3 dir = Vector3.up;
-	*/
-
 	private Color a;
 	private Color b;
 
@@ -36,21 +30,6 @@ public class MenuColor : MonoBehaviour {
 	}
 
 	private void Update () {
-		/* EPILEPTIC VERSION OWO
-		t += Time.deltaTime/2;
-		a = Vector3.Lerp(start, dir, t);
-		if (t >= 1) {
-			t = 0;
-			start = new Vector3(dir.x, dir.y, dir.z);
-			
-			if (dir == Vector3.up) 	  	   { dir = Vector3.right; }
-			else if (dir == Vector3.right) { dir = Vector3.down;  }
-			else if (dir == Vector3.down)  { dir = Vector3.left;  }
-			else if (dir == Vector3.left)  { dir = Vector3.up;    }
-		}
-		*/
-
-		//Normal Version
 		t += (Time.deltaTime / time) * multiplier;
 		a = Color.Lerp(start, end, transition.Evaluate(t));
 		b = Color.Lerp(start, end, transition.Evaluate(1-t));
