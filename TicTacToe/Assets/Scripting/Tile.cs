@@ -30,21 +30,7 @@ public class Tile : MonoBehaviour {
 
 	private void Update () {
 		//Color alpha interpolation
-		if (state) {
-			if (render.color.a != 1) {
-				t += Time.deltaTime;
-				if (t > 1) {
-					t = 1;
-				}
-
-				render.color = Color.Lerp(startColor, endColor, t);
-			}
-			else {
-				t = 0;
-			}
-		}
-		else {
-			if (render.color.a != 0) {
+		if (render.color.a != (state ? 1 : 0)) {
 				t += Time.deltaTime;
 				if (t > 1) {
 					t = 1;
@@ -55,7 +41,6 @@ public class Tile : MonoBehaviour {
 			else {
 				t = 0;
 			}
-		}
 	}
 
 	private void OnMouseDown () {
