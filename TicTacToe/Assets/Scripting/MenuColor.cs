@@ -8,10 +8,21 @@ public class MenuColor : MonoBehaviour {
 	private List<SpriteRenderer> sprites = new List<SpriteRenderer>();
 	private List<Image> uiImages = new List<Image>();
 
-	private Vector3 a = Vector3.one;
+	/*private Vector3 a = Vector3.one;
 	private Vector3 b = Vector3.zero;
 	private Vector3 start = Vector3.zero;
 	private Vector3 dir = Vector3.up;
+	*/
+
+	private Color a;
+	private Color b;
+
+	public Color start = (Color)(new Color32(56, 62, 70, 255));
+	public Color end = Color.white;
+	private int multiplier = 1;
+
+	public AnimationCurve transition;
+	public float time;
 
 	private float t = 0;
 
@@ -25,6 +36,7 @@ public class MenuColor : MonoBehaviour {
 	}
 
 	private void Update () {
+		/* EPILEPTIC VERSION OWO
 		t += Time.deltaTime/2;
 		a = Vector3.Lerp(start, dir, t);
 		if (t >= 1) {
@@ -36,15 +48,23 @@ public class MenuColor : MonoBehaviour {
 			else if (dir == Vector3.down)  { dir = Vector3.left;  }
 			else if (dir == Vector3.left)  { dir = Vector3.up;    }
 		}
+		*/
 
-		b = Vector3.one - a;
+		//Normal Version
+		t += (Time.deltaTime / time) * multiplier;
+		a = Color.Lerp(start, end, transition.Evaluate(t));
+		b = Color.Lerp(start, end, transition.Evaluate(1-t));
 
-		Camera.main.backgroundColor = VecToColor(a);
+		if (t >= 1 || t <= 0) {
+			multiplier *= -1;
+		}
+
+		Camera.main.backgroundColor = a;
 		foreach (SpriteRenderer r in sprites) {
-			r.color = VecToColor(b);
+			r.color = b;
 		}
 		foreach (Image i in uiImages) {
-			i.color = VecToColor(b);
+			i.color = b;
 		}
 	}
 
